@@ -156,6 +156,12 @@ shared.settingsSections = createSelector(
 			isScreen: true,
 		});
 
+		output.push({
+			name: 'collab',
+			metadatas: [],
+			isScreen: true,
+		});
+
 		return output;
 	}
 );

@@ -34,6 +34,7 @@ const ExternalEditWatcher = require('lib/services/ExternalEditWatcher');
 const eventManager = require('lib/eventManager');
 const NoteRevisionViewer = require('../NoteRevisionViewer.min');
 const TagList = require('../TagList.min.js');
+const CollabClient = require('lib/collab/shareclient.js');
 
 const commands = [
 	require('./commands/showRevisions'),
@@ -43,6 +44,7 @@ function NoteEditor(props: NoteEditorProps) {
 	const [showRevisions, setShowRevisions] = useState(false);
 	const [titleHasBeenManuallyChanged, setTitleHasBeenManuallyChanged] = useState(false);
 	const [scrollWhenReady, setScrollWhenReady] = useState<ScrollOptions>(null);
+	const [collabClient, setCollabClient] = useState({connectionStatuz: null});
 
 	const editorRef = useRef<any>();
 	const titleInputRef = useRef<any>();
@@ -70,6 +72,19 @@ function NoteEditor(props: NoteEditorProps) {
 
 	const formNoteRef = useRef<FormNote>();
 	formNoteRef.current = { ...formNote };
+
+	if (typeof formNoteRef.current.is_collab !== 'undefined') {
+		if (formNoteRef.current.is_collab && !collabClient.connectionStatuz) { 
+			setCollabClient(new CollabClient())
+			console.log('CREATING COLLABCLIENT')
+		} else if (!formNoteRef.current.is_collab && collabClient.connectionStatuz) {
+				console.log(collabClient)
+				collabClient.destroy(); 
+				setCollabClient({connectionStatuz: null})
+		}
+	}
+		// start sClient if is_collab === true AND not already started. 
+		// Pass it to editor via props.
 
 	const {
 		localSearch,
@@ -367,6 +382,10 @@ function NoteEditor(props: NoteEditorProps) {
 
 	const searchMarkers = useSearchMarkers(showLocalSearch, localSearchMarkerOptions, props.searches, props.selectedSearchId);
 
+	function getCollabClient() { 
+		return collabClient
+	} 
+
 	const editorProps:NoteBodyEditorProps = {
 		ref: editorRef,
 		contentKey: formNote.id,
@@ -392,6 +411,7 @@ function NoteEditor(props: NoteEditorProps) {
 		keyboardMode: Setting.value('editor.keyboardMode'),
 		locale: Setting.value('locale'),
 		onDrop: onDrop,
+		collabClient: getCollabClient(),
 	};
 
 	let editor = null;

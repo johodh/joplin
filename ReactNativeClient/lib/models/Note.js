@@ -268,7 +268,7 @@ class Note extends BaseItem {
 			includeTimestamps: true,
 		}, options);
 
-		const output = ['id', 'title', 'is_todo', 'todo_completed', 'todo_due', 'parent_id', 'encryption_applied', 'order', 'markup_language'];
+		const output = ['id', 'title', 'is_todo', 'todo_completed', 'todo_due', 'parent_id', 'encryption_applied', 'order', 'markup_language', 'is_collab', 'collabs', 'server_id', 'remote_id', 'shared_key'];
 
 		if (options.includeTimestamps) {
 			output.push('updated_time');

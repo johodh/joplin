@@ -126,6 +126,12 @@ class NoteListUtils {
 				)
 			);
 
+			menu.append(
+				new MenuItem(
+					cmdService.commandToMenuItem('showCollabDialog', null, { noteIds: noteIds.slice() })
+				)
+			);
+
 			const exportMenu = new Menu();
 
 			const ioService = new InteropService();

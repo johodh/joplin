@@ -777,6 +777,7 @@ class Setting extends BaseModel {
 				'Thus an item with a factor of 2 will take twice as much space as an item with a factor of 1.' +
 				'Restart app to see changes.'),
 			},
+			'collab.servers': { value: {}, type: Setting.TYPE_OBJECT, public: false },
 		};
 
 		return this.metadata_;
@@ -1259,6 +1260,7 @@ class Setting extends BaseModel {
 		if (name === 'revisionService') return _('Note History');
 		if (name === 'encryption') return _('Encryption');
 		if (name === 'server') return _('Web Clipper');
+		if (name === 'collab') return _('Collaboration'); 
 		return name;
 	}
 
@@ -1278,6 +1280,7 @@ class Setting extends BaseModel {
 		if (name === 'revisionService') return 'fas fa-history';
 		if (name === 'encryption') return 'fas fa-key';
 		if (name === 'server') return 'far fa-hand-scissors';
+		if (name === 'collab') return 'fas fa-users';
 		return name;
 	}
 

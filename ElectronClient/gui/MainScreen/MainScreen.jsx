@@ -21,6 +21,7 @@ const EncryptionService = require('lib/services/EncryptionService');
 const CommandService = require('lib/services/CommandService').default;
 const ipcRenderer = require('electron').ipcRenderer;
 const { time } = require('lib/time-utils.js');
+const CollabDialog = require('../CollabDialog.min.js');
 
 const commands = [
 	require('./commands/editAlarm'),
@@ -40,6 +41,7 @@ const commands = [
 	require('./commands/showNoteContentProperties'),
 	require('./commands/showNoteProperties'),
 	require('./commands/showShareNoteDialog'),
+	require('./commands/showCollabDialog'),
 	require('./commands/toggleNoteList'),
 	require('./commands/toggleSidebar'),
 	require('./commands/toggleVisiblePanes'),
@@ -58,6 +60,7 @@ class MainScreenComponent extends React.Component {
 			notePropertiesDialogOptions: {},
 			noteContentPropertiesDialogOptions: {},
 			shareNoteDialogOptions: {},
+			collabDialogOptions: {},
 		};
 
 		this.registerCommands();
@@ -68,6 +71,7 @@ class MainScreenComponent extends React.Component {
 		this.notePropertiesDialog_close = this.notePropertiesDialog_close.bind(this);
 		this.noteContentPropertiesDialog_close = this.noteContentPropertiesDialog_close.bind(this);
 		this.shareNoteDialog_close = this.shareNoteDialog_close.bind(this);
+		this.collabDialog_close = this.collabDialog_close.bind(this);
 		this.sidebar_onDrag = this.sidebar_onDrag.bind(this);
 		this.noteList_onDrag = this.noteList_onDrag.bind(this);
 	}
@@ -121,6 +125,10 @@ class MainScreenComponent extends React.Component {
 
 	shareNoteDialog_close() {
 		this.setState({ shareNoteDialogOptions: {} });
+	}
+
+	collabDialog_close() {
+		this.setState({ collabDialogOptions: {} });
 	}
 
 	commandService_commandsEnabledStateChange(event) {
@@ -467,6 +475,7 @@ class MainScreenComponent extends React.Component {
 		const notePropertiesDialogOptions = this.state.notePropertiesDialogOptions;
 		const noteContentPropertiesDialogOptions = this.state.noteContentPropertiesDialogOptions;
 		const shareNoteDialogOptions = this.state.shareNoteDialogOptions;
+		const collabDialogOptions = this.state.collabDialogOptions;
 
 		const codeEditor = Setting.value('editor.betaCodeMirror') ? 'CodeMirror' : 'AceEditor';
 		const bodyEditor = this.props.settingEditorCodeView ? codeEditor : 'TinyMCE';
@@ -478,7 +487,7 @@ class MainScreenComponent extends React.Component {
 				{noteContentPropertiesDialogOptions.visible && <NoteContentPropertiesDialog theme={this.props.theme} onClose={this.noteContentPropertiesDialog_close} text={noteContentPropertiesDialogOptions.text}/>}
 				{notePropertiesDialogOptions.visible && <NotePropertiesDialog theme={this.props.theme} noteId={notePropertiesDialogOptions.noteId} onClose={this.notePropertiesDialog_close} onRevisionLinkClick={notePropertiesDialogOptions.onRevisionLinkClick} />}
 				{shareNoteDialogOptions.visible && <ShareNoteDialog theme={this.props.theme} noteIds={shareNoteDialogOptions.noteIds} onClose={this.shareNoteDialog_close} />}
-
+				{collabDialogOptions.visible && <CollabDialog theme={this.props.theme} noteIds={collabDialogOptions.noteIds} onClose={this.collabDialog_close} />}
 				<PromptDialog autocomplete={promptOptions && 'autocomplete' in promptOptions ? promptOptions.autocomplete : null} defaultValue={promptOptions && promptOptions.value ? promptOptions.value : ''} theme={this.props.theme} style={styles.prompt} onClose={this.promptOnClose_} label={promptOptions ? promptOptions.label : ''} description={promptOptions ? promptOptions.description : null} visible={!!this.state.promptOptions} buttons={promptOptions && 'buttons' in promptOptions ? promptOptions.buttons : null} inputType={promptOptions && 'inputType' in promptOptions ? promptOptions.inputType : null} />
 
 				<Header style={styles.header} showBackButton={false} items={headerItems} />

@@ -524,6 +524,28 @@ function AceEditor(props: NoteBodyEditorProps, ref: any) {
 	}, [props.content, editor]);
 
 	useEffect(() => {
+		if (!editor) return;
+		console.log(props.collabClient.connectionStatuz);
+		if (props.collabClient) {
+			if (!props.collabClient.connectionStatuz) {
+				console.log('props.collabClient is, but no connectionStatus')
+				if (!props.collabClient.connection) {
+					console.log('props.collabClient.connection is not, connecting...')
+					console.log(props.collabClient)
+					props.collabClient.connect(editor)
+					//} else if (props.collabClient.connection.readyState != 0) {
+				}
+			} else if (props.collabClient.connectionStatuz === 'connected') {
+				console.log('readyState is != 0, sending accessNote')
+				props.collabClient.accessNote('3f4a1c0f4fba4dc89e4c9587d43e9fa1')
+				props.collabClient.connectionStatus('connected');
+			}
+		}	
+		
+		// find something better than props.content to decide when this routine is run.
+	}, [editor, props.collabClient.connectionStatuz]);
+
+	useEffect(() => {
 		if (!webviewReady) return;
 
 		const options: any = {
@@ -599,6 +621,9 @@ function AceEditor(props: NoteBodyEditorProps, ref: any) {
 					onScroll={editor_scroll}
 					onChange={aceEditor_change}
 					showPrintMargin={false}
+					onSelectionChange={props.collabClient ? props.collabClient.onSelectionChangeEvent : null }
+					onCursorChange={ props.collabClient ? props.collabClient.onCursorChangeEvent : null }
+					onPaste={ props.collabClient ? props.collabClient.onPasteEvent : null }
 					onLoad={aceEditor_load}
 					// Enable/Disable the autoclosing braces
 					setOptions={

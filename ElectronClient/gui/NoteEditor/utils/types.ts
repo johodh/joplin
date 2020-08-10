@@ -50,6 +50,7 @@ export interface NoteBodyEditorProps {
 	resourceInfos: ResourceInfos,
 	locale: string,
 	onDrop: Function,
+	collabClient: any,
 }
 
 export interface FormNote {
@@ -95,6 +96,7 @@ export interface FormNote {
 	// original CSS here. It's used in formNoteToNote to rebuild the note body.
 	// We can keep it here because we know TinyMCE will not modify it anyway.
 	originalCss: string,
+	is_collab: 0,
 }
 
 export function defaultFormNote():FormNote {
@@ -112,6 +114,7 @@ export function defaultFormNote():FormNote {
 		hasChanged: false,
 		user_updated_time: 0,
 		encryption_applied: 0,
+		is_collab: 0,
 	};
 }
 

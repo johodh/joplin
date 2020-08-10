@@ -89,6 +89,7 @@ export default function useFormNote(dependencies:HookDependencies) {
 			hasChanged: false,
 			user_updated_time: n.user_updated_time,
 			encryption_applied: n.encryption_applied,
+			is_collab: n.is_collab,
 		};
 
 		// Note that for performance reason,the call to setResourceInfos should
