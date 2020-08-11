@@ -7,22 +7,22 @@ const ClipperServer = require('lib/ClipperServer');
 const Setting = require('lib/models/Setting');
 const { clipboard } = require('electron');
 const ExtensionBadge = require('./ExtensionBadge.min');
-const collabManager = require('lib/collab/manager.js'); 
+const collabManager = require('lib/collab/manager.js');
 
 class CollabConfigScreenComponent extends React.Component {
 	constructor() {
 		super();
 		this.copyToken_click = this.copyToken_click.bind(this);
 		this.serverConnect = this.serverConnect.bind(this);
-		this.catchName = this.catchName.bind(this); 
-		this.catchServer = this.catchServer.bind(this); 
+		this.catchName = this.catchName.bind(this);
+		this.catchServer = this.catchServer.bind(this);
 		this.catchUsername = this.catchUsername.bind(this);
 		this.catchPassword = this.catchPassword.bind(this);
-		this.serverChange = this.serverChange.bind(this); 
-		this.deleteServer = this.deleteServer.bind(this); 
+		this.serverChange = this.serverChange.bind(this);
+		this.deleteServer = this.deleteServer.bind(this);
 		this.state = {
 			savedservers: Setting.value('collab.servers'),
-		}
+		};
 
 		console.log(this.props);
 	}
@@ -43,43 +43,43 @@ class CollabConfigScreenComponent extends React.Component {
 		alert(_('Token has been copied to the clipboard!'));
 	}
 
-	catchName(event) { 
-		this.setState({ name: event.target.value })
+	catchName(event) {
+		this.setState({ name: event.target.value });
 	}
 
-	catchServer(event) { 
-		this.setState({ server: event.target.value }) 
+	catchServer(event) {
+		this.setState({ server: event.target.value });
 	}
 
-	catchUsername(event) { 
-		this.setState({ username: event.target.value }) 
-	}
-	
-	catchPassword(event) { 
-		this.setState({ password: event.target.value }) 
+	catchUsername(event) {
+		this.setState({ username: event.target.value });
 	}
 
-	serverChange(event) { 
-		this.setState({ chosen: event.target.value }) 
+	catchPassword(event) {
+		this.setState({ password: event.target.value });
 	}
 
-	deleteServer(event) { 
-		var savedServers = this.state.savedservers;
+	serverChange(event) {
+		this.setState({ chosen: event.target.value });
+	}
+
+	deleteServer(event) {
+		const savedServers = this.state.savedservers;
 		Setting.deleteObjectKey('collab.servers', this.state.chosen);
-		delete savedServers[this.state.chosen]; 
-		this.setState({ savedservers: savedServers }); 
-		console.log(this.state.savedservers); 
+		delete savedServers[this.state.chosen];
+		this.setState({ savedservers: savedServers });
+		console.log(this.state.savedservers);
 	}
 
-	serverConnect() { 
+	serverConnect() {
 		if (this.state !== null) {
-		var savedServers = Setting.value('collab.servers');
-		alert(_('Connecting to ' + this.state.server)); 
-		const server = { host: this.state.server, username: this.state.username, password: this.state.password }; 
-		Setting.setObjectKey('collab.servers', this.state.name, server)
-		savedServers[this.state.name] = server;
-		this.setState({ savedservers: savedServers }); 
-		} else { alert(_('Fill in credentials')) } 
+			const savedServers = Setting.value('collab.servers');
+			alert(_(`Connecting to ${this.state.server}`));
+			const server = { host: this.state.server, username: this.state.username, password: this.state.password };
+			Setting.setObjectKey('collab.servers', this.state.name, server);
+			savedServers[this.state.name] = server;
+			this.setState({ savedservers: savedServers });
+		} else { alert(_('Fill in credentials')); }
 	}
 	render() {
 		const theme = themeStyle(this.props.theme);
@@ -107,14 +107,14 @@ class CollabConfigScreenComponent extends React.Component {
 			paddingTop: 10,
 			paddingBottom: 10,
 		});
-		var options = []; 	
-		if (this.state.savedservers) { 
-			var key; 
-			for (key in this.state.savedservers) { 
+		const options = [];
+		if (this.state.savedservers) {
+			let key;
+			for (key in this.state.savedservers) {
 				if (this.state.savedservers.hasOwnProperty(key)) {
 					options.push(
 						<option value={key} key={key}>
-						{key}
+							{key}
 						</option>
 					);
 				}
@@ -150,8 +150,8 @@ class CollabConfigScreenComponent extends React.Component {
 							</div>
 						</div>
 						<div style={stepBoxStyle}>
-						<select onChange={this.serverChange}> {options} </select><br />
-						<button onClick={this.deleteServer}>Delete</button>
+							<select onChange={this.serverChange}> {options} </select><br />
+							<button onClick={this.deleteServer}>Delete</button>
 						</div>
 					</div>
 				</div>
@@ -163,7 +163,7 @@ class CollabConfigScreenComponent extends React.Component {
 const mapStateToProps = state => {
 	return {
 		theme: state.settings.theme,
-		collabAutoConnect: true
+		collabAutoConnect: true,
 	};
 };
 

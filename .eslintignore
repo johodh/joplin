@@ -84,6 +84,7 @@ ElectronClient/gui/MainScreen/commands/renameTag.js
 ElectronClient/gui/MainScreen/commands/search.js
 ElectronClient/gui/MainScreen/commands/selectTemplate.js
 ElectronClient/gui/MainScreen/commands/setTags.js
+ElectronClient/gui/MainScreen/commands/showCollabDialog.js
 ElectronClient/gui/MainScreen/commands/showModalMessage.js
 ElectronClient/gui/MainScreen/commands/showNoteContentProperties.js
 ElectronClient/gui/MainScreen/commands/showNoteProperties.js

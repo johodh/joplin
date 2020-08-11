@@ -1260,7 +1260,7 @@ class Setting extends BaseModel {
 		if (name === 'revisionService') return _('Note History');
 		if (name === 'encryption') return _('Encryption');
 		if (name === 'server') return _('Web Clipper');
-		if (name === 'collab') return _('Collaboration'); 
+		if (name === 'collab') return _('Collaboration');
 		return name;
 	}
 

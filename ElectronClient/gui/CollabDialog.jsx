@@ -16,7 +16,7 @@ class CollabDialog extends React.Component {
 		this.revisionsLink_click = this.revisionsLink_click.bind(this);
 		this.buttonRow_click = this.buttonRow_click.bind(this);
 		this.okButton = React.createRef();
-		this.serverList = this.serverList.bind(this); 
+		this.serverList = this.serverList.bind(this);
 
 		this.state = {
 			formNote: null,
@@ -56,7 +56,7 @@ class CollabDialog extends React.Component {
 	}
 
 	serverList() {
-	console.log('serverlist');
+		console.log('serverlist');
 	}
 
 	styles(themeId) {

@@ -744,11 +744,11 @@ class JoplinDatabase extends Database {
 				// queries.push('DROP VIEW tags_with_note_count');
 				// queries.push(this.addMigrationFile(31));
 
-				queries.push(`ALTER TABLE notes ADD COLUMN is_collab INT NOT NULL DEFAULT 0`);
-				queries.push(`ALTER TABLE notes ADD COLUMN collabs TEXT NOT NULL DEFAULT ""`);	
-				queries.push(`ALTER TABLE notes ADD COLUMN server_id TEXT NOT NULL DEFAULT ""`);
-				queries.push(`ALTER TABLE notes ADD COLUMN remote_id TEXT NOT NULL DEFAULT ""`);
-				queries.push(`ALTER TABLE notes ADD COLUMN shared_key TEXT NOT NULL DEFAULT ""`);
+				queries.push('ALTER TABLE notes ADD COLUMN is_collab INT NOT NULL DEFAULT 0');
+				queries.push('ALTER TABLE notes ADD COLUMN collabs TEXT NOT NULL DEFAULT ""');
+				queries.push('ALTER TABLE notes ADD COLUMN server_id TEXT NOT NULL DEFAULT ""');
+				queries.push('ALTER TABLE notes ADD COLUMN remote_id TEXT NOT NULL DEFAULT ""');
+				queries.push('ALTER TABLE notes ADD COLUMN shared_key TEXT NOT NULL DEFAULT ""');
 
 			}
 

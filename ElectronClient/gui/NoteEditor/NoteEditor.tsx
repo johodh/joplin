@@ -16,7 +16,7 @@ import useDropHandler from './utils/useDropHandler';
 import useMarkupToHtml from './utils/useMarkupToHtml';
 import useFormNote, { OnLoadEvent } from './utils/useFormNote';
 import styles_ from './styles';
-import { NoteEditorProps, FormNote, ScrollOptions, ScrollOptionTypes, OnChangeEvent, NoteBodyEditorProps } from './utils/types';
+import { NoteEditorProps, FormNote, ScrollOptions, ScrollOptionTypes, OnChangeEvent, NoteBodyEditorProps, CollabClientProps } from './utils/types';
 import ResourceEditWatcher from '../../lib/services/ResourceEditWatcher/index';
 import CommandService from '../../lib/services/CommandService';
 
@@ -44,7 +44,7 @@ function NoteEditor(props: NoteEditorProps) {
 	const [showRevisions, setShowRevisions] = useState(false);
 	const [titleHasBeenManuallyChanged, setTitleHasBeenManuallyChanged] = useState(false);
 	const [scrollWhenReady, setScrollWhenReady] = useState<ScrollOptions>(null);
-	const [collabClient, setCollabClient] = useState({connectionStatuz: null});
+	const [collabClient, setCollabClient] = useState<CollabClientProps>({connectionStatuz: null, destroy: null});
 
 	const editorRef = useRef<any>();
 	const titleInputRef = useRef<any>();
@@ -72,19 +72,22 @@ function NoteEditor(props: NoteEditorProps) {
 
 	const formNoteRef = useRef<FormNote>();
 	formNoteRef.current = { ...formNote };
-
+	console.log(collabClient)
+	console.log(formNoteRef.current.is_collab)
 	if (typeof formNoteRef.current.is_collab !== 'undefined') {
-		if (formNoteRef.current.is_collab && !collabClient.connectionStatuz) { 
-			setCollabClient(new CollabClient())
-			console.log('CREATING COLLABCLIENT')
-		} else if (!formNoteRef.current.is_collab && collabClient.connectionStatuz) {
-				console.log(collabClient)
-				collabClient.destroy(); 
-				setCollabClient({connectionStatuz: null})
+		if (formNoteRef.current.is_collab && !collabClient.connectionStatuz) {
+			setCollabClient(new CollabClient());
+			// collabClient.connectionStatuz will be "connecting" on new CollabClient, then "connected when accessNote is sent in AceEditor component".
+			console.log('CREATING COLLABCLIENT');
+		} 
+		if (!formNoteRef.current.is_collab && collabClient.connectionStatuz === 'connected') {
+			console.log(collabClient);
+			collabClient.destroy();
+			setCollabClient({ connectionStatuz: null, destroy: null });
 		}
 	}
-		// start sClient if is_collab === true AND not already started. 
-		// Pass it to editor via props.
+	// start sClient if is_collab === true AND not already started.
+	// Pass it to editor via props.
 
 	const {
 		localSearch,
@@ -382,9 +385,9 @@ function NoteEditor(props: NoteEditorProps) {
 
 	const searchMarkers = useSearchMarkers(showLocalSearch, localSearchMarkerOptions, props.searches, props.selectedSearchId);
 
-	function getCollabClient() { 
-		return collabClient
-	} 
+	function getCollabClient() {
+		return collabClient;
+	}
 
 	const editorProps:NoteBodyEditorProps = {
 		ref: editorRef,

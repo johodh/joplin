@@ -147,3 +147,8 @@ export interface EditorCommand {
 	name: string;
 	value: any;
 }
+
+export interface CollabClientProps {
+	connectionStatuz: string;
+	destroy: Function; 
+}
