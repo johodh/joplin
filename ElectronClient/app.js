@@ -757,6 +757,7 @@ class Application extends BaseApplication {
 					cmdService.commandToMenuItem('textCode'),
 					separator(),
 					cmdService.commandToMenuItem('insertDateTime'),
+					cmdService.commandToMenuItem('attachFile'),
 					separator(),
 					cmdService.commandToMenuItem('focusSearch'),
 					cmdService.commandToMenuItem('showLocalSearch'),
