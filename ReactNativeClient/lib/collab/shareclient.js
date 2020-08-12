@@ -12,7 +12,7 @@ class sClient {
 		this.connection = null;
 		this.connectionStatuz = "connecting";
 		this.editor = null;
-		this.credentials = { request: 'login', user: 'johan', password: 'johan' };
+		this.credentials = { request: 'login', user: 'HenryMac', password: 'AndCheese' };
 		this.preventUpdateOnNewLine = false;
 		this.preventUpdateOnBsp = false;
 		this.lineHasChanged = false;

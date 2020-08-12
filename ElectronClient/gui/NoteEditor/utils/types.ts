@@ -151,4 +151,5 @@ export interface EditorCommand {
 export interface CollabClientProps {
 	connectionStatuz: string;
 	destroy: Function; 
+	connect: Function; 
 }

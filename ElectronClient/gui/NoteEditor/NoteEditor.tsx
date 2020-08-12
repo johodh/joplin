@@ -44,7 +44,7 @@ function NoteEditor(props: NoteEditorProps) {
 	const [showRevisions, setShowRevisions] = useState(false);
 	const [titleHasBeenManuallyChanged, setTitleHasBeenManuallyChanged] = useState(false);
 	const [scrollWhenReady, setScrollWhenReady] = useState<ScrollOptions>(null);
-	const [collabClient, setCollabClient] = useState<CollabClientProps>({connectionStatuz: null, destroy: null});
+	const [collabClient, setCollabClient] = useState<CollabClientProps>({connectionStatuz: null, destroy: null, connect: null});
 
 	const editorRef = useRef<any>();
 	const titleInputRef = useRef<any>();
@@ -83,7 +83,7 @@ function NoteEditor(props: NoteEditorProps) {
 		if (!formNoteRef.current.is_collab && collabClient.connectionStatuz === 'connected') {
 			console.log(collabClient);
 			collabClient.destroy();
-			setCollabClient({ connectionStatuz: null, destroy: null });
+			setCollabClient({ connectionStatuz: null, destroy: null, connect: null });
 		}
 	}
 	// start sClient if is_collab === true AND not already started.
