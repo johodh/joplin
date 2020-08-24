@@ -128,7 +128,7 @@ class NoteListUtils {
 
 			menu.append(
 				new MenuItem(
-					cmdService.commandToMenuItem('showCollabDialog', null, { noteIds: noteIds.slice() })
+					cmdService.commandToMenuItem('showCollabDialog', { noteIds: noteIds.slice() })
 				)
 			);
 

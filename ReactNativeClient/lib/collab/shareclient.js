@@ -38,7 +38,7 @@ class sClient {
 			//			this.editor.on("blur", console.log('EDITOR blur from shareclient'));
 			this.editor.container.addEventListener('blur', console.log('EDITOR.CONTAINER blur'));
 			this.connectionStatuz = 'connected';
-			// onPaste, onCursorChange and onSelectionChange are called from NoteText.jsx
+			// onPaste, onCursorChange and onSelectionChange are called from AceEditor.tsx, as they are Ace specific eventlisteners that will be overwritten on render. 
 		};
 
 		this.connection.onerror = (error) => {

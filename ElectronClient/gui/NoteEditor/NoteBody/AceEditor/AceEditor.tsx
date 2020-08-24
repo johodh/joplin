@@ -621,9 +621,9 @@ function AceEditor(props: NoteBodyEditorProps, ref: any) {
 					onScroll={editor_scroll}
 					onChange={aceEditor_change}
 					showPrintMargin={false}
-					onSelectionChange={props.collabClient ? props.collabClient.onSelectionChangeEvent : null }
-					onCursorChange={ props.collabClient ? props.collabClient.onCursorChangeEvent : null }
-					onPaste={ props.collabClient ? props.collabClient.onPasteEvent : null }
+					onSelectionChange={props.collabClient.connectionStatuz === 'connected' ? props.collabClient.onSelectionChangeEvent : null }
+					onCursorChange={ props.collabClient.connectionStatuz === 'connected' ? props.collabClient.onCursorChangeEvent : null }
+					onPaste={ props.collabClient.connectionStatuz === 'connected' ? props.collabClient.onPasteEvent : null }
 					onLoad={aceEditor_load}
 					// Enable/Disable the autoclosing braces
 					setOptions={
