@@ -10,7 +10,7 @@ class sClient {
 	constructor() {
 		this.e2ee = false;
 		this.connection = null;
-		this.connectionStatuz = "connecting";
+		this.connectionStatuz = 'connecting';
 		this.editor = null;
 		this.credentials = { request: 'login', user: 'HenryMac', password: 'AndCheese' };
 		this.preventUpdateOnNewLine = false;
@@ -38,7 +38,7 @@ class sClient {
 			//			this.editor.on("blur", console.log('EDITOR blur from shareclient'));
 			this.editor.container.addEventListener('blur', console.log('EDITOR.CONTAINER blur'));
 			this.connectionStatuz = 'connected';
-			// onPaste, onCursorChange and onSelectionChange are called from AceEditor.tsx, as they are Ace specific eventlisteners that will be overwritten on render. 
+			// onPaste, onCursorChange and onSelectionChange are called from AceEditor.tsx, as they are Ace specific eventlisteners that will be overwritten on render.
 		};
 
 		this.connection.onerror = (error) => {

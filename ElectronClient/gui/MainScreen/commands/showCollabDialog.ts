@@ -9,7 +9,7 @@ export const declaration:CommandDeclaration = {
 export const runtime = (comp:any):CommandRuntime => {
 	return {
 		execute: async ({ noteIds }:any) => {
-			console.log('hello from showCollabDialog.ts')
+			console.log('hello from showCollabDialog.ts');
 			console.log('runtime comp');
 			console.log(comp);
 			comp.setState({

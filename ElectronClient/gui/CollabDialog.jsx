@@ -15,12 +15,12 @@ class CollabDialog extends React.Component {
 
 		this.buttonRow_click = this.buttonRow_click.bind(this);
 		this.okButton = React.createRef();
-		this.serverList = this.serverList.bind(this);
 
 		this.state = {
 			formNote: null,
 			editedKey: null,
 			editedValue: null,
+			collabServers: null
 		};
 
 		this.keyToLabel_ = {
@@ -31,9 +31,10 @@ class CollabDialog extends React.Component {
 
 	componentDidMount() {
 		this.loadNote(this.props.noteIds[0]);
-		console.log('hello from CollabDialog.jsx')
-		console.log(this.state)
-		console.log(this.props)
+		const collabServers = Setting.value('collab.servers');
+		this.setState({collabServers: collabServers});
+		
+		console.log('hello from CollabDialog.jsx');
 	}
 
 	componentDidUpdate() {
@@ -47,14 +48,10 @@ class CollabDialog extends React.Component {
 			this.setState({ formNote: null });
 		} else {
 			const note = await Note.load(noteId);
-			console.log('From inside loadNote')
+			console.log('From inside loadNote');
 			console.log(note);
 			this.setState({ formNote: note });
 		}
-	}
-
-	serverList() {
-		console.log('serverlist');
 	}
 
 	styles(themeId) {
@@ -89,7 +86,7 @@ class CollabDialog extends React.Component {
 
 	async closeDialog(applyChanges) {
 		if (applyChanges) {
-			console.log('From inside closeDialog')
+			console.log('From inside closeDialog');
 			console.log(this.state.formNote);
 			await this.saveProperty();
 			const note = this.state.formNote;
@@ -109,11 +106,11 @@ class CollabDialog extends React.Component {
 	}
 
 	async saveProperty() {
-		
+
 		return new Promise((resolve) => {
 			const newFormNote = Object.assign({}, this.state.formNote);
-			newFormNote.is_collab = 1; 
-			console.log('From Inside saveProperty')
+			newFormNote.is_collab = 1;
+			console.log('From Inside saveProperty');
 			console.log(this.state.formNote);
 			console.log(newFormNote);
 
@@ -148,15 +145,28 @@ class CollabDialog extends React.Component {
 	render() {
 		const theme = themeStyle(this.props.theme);
 		const formNote = this.state.formNote;
+		console.log(this.state.collabServers)
+		
+		const options = [];
+		for (var key in this.state.collabServers) { 
+			if (this.state.collabServers.hasOwnProperty(key)) {
+				options[key] = {label: key, value: key};
+			}
+		}
 
+		console.log('OPTIONS ARRAY')
+		console.log(options)
 
 		return (
 			<div style={theme.dialogModalLayer}>
 				<div style={theme.dialogBox}>
 					<div style={theme.dialogTitle}>{_('Choose server')}</div>
 					<select value="test">
-						<option value="test" key="test">server1</option>
-						<option value="test2" key="test2">server2</option>
+						{options.map(({label, value}) => (
+							<option key={value} value={value}>
+								{label}
+							</option>
+							))}
 					</select>
 					<DialogButtonRow theme={this.props.theme} okButtonRef={this.okButton} onClick={this.buttonRow_click}/>
 				</div>
