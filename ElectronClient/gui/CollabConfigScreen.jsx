@@ -76,8 +76,8 @@ class CollabConfigScreenComponent extends React.Component {
 			const savedServers = Setting.value('collab.servers');
 			alert(_(`Connecting to ${this.state.server}`));
 			const server = { host: this.state.server, username: this.state.username, password: this.state.password };
-			Setting.setObjectKey('collab.servers', this.state.name, server);
 			savedServers[this.state.name] = server;
+			Setting.setObjectKey('collab.servers', this.state.name, server);
 			this.setState({ savedservers: savedServers });
 		} else { alert(_('Fill in credentials')); }
 	}

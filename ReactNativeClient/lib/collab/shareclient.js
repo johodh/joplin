@@ -12,7 +12,7 @@ class sClient {
 		this.connection = null;
 		this.connectionStatuz = 'connecting';
 		this.editor = null;
-		this.credentials = { request: 'login', user: 'HenryMac', password: 'AndCheese' };
+		this.credentials = { request: 'login', user: 'johan', password: 'johan' };
 		this.preventUpdateOnNewLine = false;
 		this.preventUpdateOnBsp = false;
 		this.lineHasChanged = false;
@@ -20,7 +20,7 @@ class sClient {
 		this.rowTextPostMove = '';
 		this.rowText = '';
 		this.sharedKey = [-367688007,-1351302050,1933088759,2096362705,-792550865,934696682,-925181213,-2138181379];
-		this.url = 'ws://192.168.1.203:8080';
+		this.url = 'ws://192.168.1.138:8080';
 	}
 
 	connect(editor) {

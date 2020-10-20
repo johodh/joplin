@@ -72,8 +72,9 @@ function NoteEditor(props: NoteEditorProps) {
 
 	const formNoteRef = useRef<FormNote>();
 	formNoteRef.current = { ...formNote };
-	console.log(collabClient)
-	console.log(formNoteRef.current.is_collab)
+	// Behöver ett sätt att avgöra när vi byter anteckning. Kan ev spara den i collabClient. 
+	console.log(formNoteRef.current)
+	console.log('props.noteId: ' + props.noteId)
 	if (typeof formNoteRef.current.is_collab !== 'undefined') {
 		if (formNoteRef.current.is_collab && !collabClient.connectionStatuz) {
 			setCollabClient(new CollabClient());

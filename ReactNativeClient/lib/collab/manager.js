@@ -39,6 +39,14 @@ class CollabServerMgr {
 
 	}
 
+	getServerUsers() { 
+		const message = {
+			type: 'getUsers',
+		};
+
+		this.connection.send(JSON.stringify(message))
+	}
+
 	getClientConnection() {
 		return activeConnections;
 	}

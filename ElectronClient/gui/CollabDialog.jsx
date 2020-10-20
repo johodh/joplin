@@ -14,27 +14,19 @@ class CollabDialog extends React.Component {
 		super();
 
 		this.buttonRow_click = this.buttonRow_click.bind(this);
+		this.handleChangeServer = this.handleChangeServer.bind(this);
 		this.okButton = React.createRef();
 
 		this.state = {
 			formNote: null,
 			editedKey: null,
 			editedValue: null,
-			collabServers: null
-		};
-
-		this.keyToLabel_ = {
-			id: _('ID'),
-			is_collab: _('is_collab'),
+			chosenServer: null
 		};
 	}
 
 	componentDidMount() {
-		this.loadNote(this.props.noteIds[0]);
-		const collabServers = Setting.value('collab.servers');
-		this.setState({collabServers: collabServers});
-		
-		console.log('hello from CollabDialog.jsx');
+		this.loadNote(this.props.noteIds[0]);	
 	}
 
 	componentDidUpdate() {
@@ -48,8 +40,6 @@ class CollabDialog extends React.Component {
 			this.setState({ formNote: null });
 		} else {
 			const note = await Note.load(noteId);
-			console.log('From inside loadNote');
-			console.log(note);
 			this.setState({ formNote: note });
 		}
 	}
@@ -105,15 +95,19 @@ class CollabDialog extends React.Component {
 		this.closeDialog(event.buttonName === 'ok');
 	}
 
+// Nu fungerar det att spara vald server i note.server_id
+// TODO: 
+// 1. Sqlite-fel, se över db-koden. 
+// 2. Värdena ska bara sparas efter att servern bekräftat. Annars alert.
+// 3. Servern behöver veta om note ska delas med ny eller befintlig användare. Hur? Antar att jag behöver lista användare bredvid vald server. 
+// 4. Behöver alltså även ett sätt att spara user-listor.  
+
 	async saveProperty() {
 
 		return new Promise((resolve) => {
 			const newFormNote = Object.assign({}, this.state.formNote);
 			newFormNote.is_collab = 1;
-			console.log('From Inside saveProperty');
-			console.log(this.state.formNote);
-			console.log(newFormNote);
-
+			newFormNote.server_id = this.state.chosenServer; 
 			this.setState(
 				{
 					formNote: newFormNote,
@@ -137,31 +131,26 @@ class CollabDialog extends React.Component {
 		});
 	}
 
-	formatLabel(key) {
-		if (this.keyToLabel_[key]) return this.keyToLabel_[key];
-		return key;
+	handleChangeServer(event) {
+		this.setState({ chosenServer: event.target.value })
 	}
 
 	render() {
 		const theme = themeStyle(this.props.theme);
 		const formNote = this.state.formNote;
-		console.log(this.state.collabServers)
 		
 		const options = [];
-		for (var key in this.state.collabServers) { 
-			if (this.state.collabServers.hasOwnProperty(key)) {
-				options[key] = {label: key, value: key};
+		for (var key in Setting.value('collab.servers')) { 
+			if (Setting.value('collab.servers').hasOwnProperty(key)) {
+				options.push({label: key, value: key});
 			}
 		}
-
-		console.log('OPTIONS ARRAY')
-		console.log(options)
 
 		return (
 			<div style={theme.dialogModalLayer}>
 				<div style={theme.dialogBox}>
 					<div style={theme.dialogTitle}>{_('Choose server')}</div>
-					<select value="test">
+					<select onChange={this.handleChangeServer}>
 						{options.map(({label, value}) => (
 							<option key={value} value={value}>
 								{label}
